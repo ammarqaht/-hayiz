@@ -7,6 +7,8 @@ import { MapPin, Star, Wifi, X, ArrowUpRight, Plus, Minus } from "lucide-react";
 import { cafes, type Cafe } from "@/lib/data";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { useReservations } from "@/components/booking/ReservationsProvider";
+import Link from "next/link";
 
 const districts = [
   { name: "Al Malqa", x: 0.32, y: 0.18 },
@@ -23,6 +25,7 @@ const districts = [
 export function RiyadhMap() {
   const [selected, setSelected] = useState<Cafe | null>(null);
   const [zoom, setZoom] = useState(1);
+  const { openReserve } = useReservations();
 
   return (
     <div className="relative h-[calc(100vh-180px)] overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/40">
@@ -260,12 +263,15 @@ export function RiyadhMap() {
                   ))}
                 </div>
                 <div className="mt-auto flex items-center gap-2 pt-2">
-                  <Button size="sm">
+                  <Button size="sm" onClick={() => openReserve(selected.id)}>
                     Reserve seat <ArrowUpRight className="h-3.5 w-3.5" />
                   </Button>
-                  <Button size="sm" variant="secondary">
-                    Directions
-                  </Button>
+                  <Link
+                    href={`/dashboard/cafes/${selected.id}`}
+                    className="glass-strong inline-flex h-9 items-center gap-2 rounded-xl border border-ink-100/10 px-3.5 text-[13px] text-ink-100 transition-colors hover:bg-ink-100/[0.06]"
+                  >
+                    View café
+                  </Link>
                 </div>
               </div>
             </div>
