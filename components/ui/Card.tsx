@@ -20,9 +20,9 @@ export function Card({
           : undefined
       }
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-800/40 backdrop-blur-md",
+        "group relative overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-800/40 backdrop-blur-md",
         "transition-shadow duration-300",
-        hoverable && "hover:border-white/[0.12] hover:shadow-glow",
+        hoverable && "hover:border-ink-100/[0.12] hover:shadow-glow",
         glow && "shadow-glow",
         className
       )}

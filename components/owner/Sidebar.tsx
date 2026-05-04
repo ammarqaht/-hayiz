@@ -30,10 +30,10 @@ export function OwnerSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-[252px] shrink-0 border-r border-white/[0.06] bg-ink-950/70 px-4 py-6 backdrop-blur-xl md:flex md:flex-col">
+    <aside className="sticky top-0 hidden h-screen w-[252px] shrink-0 border-r border-ink-100/[0.06] bg-ink-950/70 px-4 py-6 backdrop-blur-xl md:flex md:flex-col">
       <div className="flex items-center gap-2 px-2">
         <Logo />
-        <span className="rounded-md border border-white/10 bg-white/[0.04] px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-ink-300">
+        <span className="rounded-md border border-ink-100/10 bg-ink-100/[0.04] px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-ink-300">
           Owner
         </span>
       </div>
@@ -58,8 +58,8 @@ export function OwnerSidebar() {
               className={cn(
                 "group relative flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[13px] transition-colors",
                 active
-                  ? "text-white"
-                  : "text-ink-300 hover:bg-white/[0.03] hover:text-white"
+                  ? "text-ink-100"
+                  : "text-ink-300 hover:bg-ink-100/[0.03] hover:text-ink-100"
               )}
             >
               {active && (
@@ -70,7 +70,7 @@ export function OwnerSidebar() {
                     stiffness: 380,
                     damping: 32,
                   }}
-                  className="absolute inset-0 rounded-xl border border-white/10 bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+                  className="absolute inset-0 rounded-xl border border-ink-100/10 bg-ink-100/[0.04] shadow-[inset_0_1px_0_rgba(17,16,42,0.10)]"
                 />
               )}
               <l.icon
@@ -85,7 +85,7 @@ export function OwnerSidebar() {
         })}
       </nav>
 
-      <div className="rounded-xl border border-white/[0.06] bg-ink-900/60 p-3">
+      <div className="rounded-xl border border-ink-100/[0.06] bg-ink-900/60 p-3">
         <div className="flex items-center gap-2.5">
           <div className="grid h-9 w-9 place-items-center rounded-lg bg-brand-gradient text-[12px] font-semibold text-white">
             EG
@@ -99,7 +99,7 @@ export function OwnerSidebar() {
 
       <Link
         href="/dashboard"
-        className="mt-3 rounded-xl border border-white/[0.06] p-3 text-center text-[12px] text-ink-300 transition-colors hover:text-white"
+        className="mt-3 rounded-xl border border-ink-100/[0.06] p-3 text-center text-[12px] text-ink-300 transition-colors hover:text-ink-100"
       >
         Switch to customer →
       </Link>

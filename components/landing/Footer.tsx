@@ -30,7 +30,7 @@ const cols = [
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/[0.06] py-16">
+    <footer className="relative border-t border-ink-100/[0.06] py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-6 md:grid-cols-5">
         <div className="col-span-2">
           <Logo />
@@ -52,7 +52,7 @@ export function Footer() {
                 <li key={label}>
                   <Link
                     href={href}
-                    className="text-[13px] text-ink-200 transition-colors hover:text-white"
+                    className="text-[13px] text-ink-200 transition-colors hover:text-ink-100"
                   >
                     {label}
                   </Link>

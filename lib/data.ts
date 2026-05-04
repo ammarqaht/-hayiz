@@ -184,41 +184,13 @@ export const cafes: Cafe[] = [
 
 export const featured = cafes.slice(0, 6);
 
-export const upcomingBookings = [
-  {
-    id: "bk_001",
-    cafe: "Elm & Grove",
-    area: "Al Olaya",
-    date: "Today",
-    time: "14:00 — 17:00",
-    seat: "Window booth · 2",
-    status: "confirmed" as const,
-    image:
-      "https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: "bk_002",
-    cafe: "North Pour",
-    area: "Al Malqa",
-    date: "Tue · Apr 30",
-    time: "09:30 — 13:00",
-    seat: "Quiet zone · 7",
-    status: "confirmed" as const,
-    image:
-      "https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: "bk_003",
-    cafe: "Mira Roastery",
-    area: "Al Hamra",
-    date: "Fri · May 3",
-    time: "10:00 — 12:00",
-    seat: "Counter · 3",
-    status: "pending" as const,
-    image:
-      "https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=600&q=80",
-  },
-];
+// The café the user is most likely to visit — drives the default in the
+// reserve dialog and the "your bookings here" example flow.
+export const PINNED_CAFE_ID = "elm-grove";
+
+export function getCafeById(id: string): Cafe | undefined {
+  return cafes.find((c) => c.id === id);
+}
 
 export const ownerOverview = {
   todayRevenue: 4280,

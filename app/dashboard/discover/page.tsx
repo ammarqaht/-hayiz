@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Star, Wifi, MapPin, Volume2, Search, SlidersHorizontal } from "lucide-react";
@@ -8,6 +9,7 @@ import { Topbar } from "@/components/dashboard/Topbar";
 import { cafes } from "@/lib/data";
 import { Badge } from "@/components/ui/Badge";
 import { Stagger, staggerItem } from "@/components/ui/AnimatedText";
+import { useReservations } from "@/components/booking/ReservationsProvider";
 import { cn } from "@/lib/utils";
 
 const filters = ["All", "Quiet", "Meeting", "Late night", "Roastery", "Bakery", "Affordable", "Premium"];
@@ -15,6 +17,7 @@ const filters = ["All", "Quiet", "Meeting", "Late night", "Roastery", "Bakery", 
 export default function DiscoverPage() {
   const [filter, setFilter] = useState("All");
   const [query, setQuery] = useState("");
+  const { openReserve } = useReservations();
 
   const list = cafes.filter((c) => {
     const matchesFilter =
@@ -32,7 +35,7 @@ export default function DiscoverPage() {
         subtitle="Hand-picked, verified workspaces across the city."
       />
 
-      <div className="sticky top-[88px] z-30 -mx-8 mb-6 border-y border-white/[0.06] bg-ink-950/70 px-8 py-4 backdrop-blur-xl">
+      <div className="sticky top-[88px] z-30 -mx-8 mb-6 border-y border-ink-100/[0.06] bg-ink-950/70 px-8 py-4 backdrop-blur-xl">
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative flex-1 min-w-[260px]">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400" />
@@ -40,10 +43,10 @@ export default function DiscoverPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by name, district or amenity"
-              className="h-10 w-full rounded-xl border border-white/[0.06] bg-white/[0.03] pl-9 pr-3 text-[13px] text-white placeholder:text-ink-400 focus:border-white/20 focus:outline-none focus:ring-2 focus:ring-brand-teal/40"
+              className="h-10 w-full rounded-xl border border-ink-100/[0.06] bg-ink-100/[0.03] pl-9 pr-3 text-[13px] text-ink-100 placeholder:text-ink-400 focus:border-ink-100/20 focus:outline-none focus:ring-2 focus:ring-brand-teal/40"
             />
           </div>
-          <button className="inline-flex h-10 items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 text-[13px] text-ink-200 hover:text-white">
+          <button className="inline-flex h-10 items-center gap-2 rounded-xl border border-ink-100/[0.06] bg-ink-100/[0.03] px-3 text-[13px] text-ink-200 hover:text-ink-100">
             <SlidersHorizontal className="h-4 w-4" />
             Filters
           </button>
@@ -57,7 +60,7 @@ export default function DiscoverPage() {
                 "relative rounded-full border px-3.5 py-1.5 text-[12px] transition-colors",
                 filter === f
                   ? "border-transparent text-white"
-                  : "border-white/[0.06] text-ink-300 hover:border-white/20 hover:text-white"
+                  : "border-ink-100/[0.06] text-ink-300 hover:border-ink-100/20 hover:text-ink-100"
               )}
             >
               {filter === f && (
@@ -80,7 +83,7 @@ export default function DiscoverPage() {
             variants={staggerItem}
             whileHover={{ y: -6 }}
             transition={{ type: "spring", stiffness: 300, damping: 22 }}
-            className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/50 transition-shadow duration-300 hover:border-white/[0.14] hover:shadow-glow"
+            className="group relative overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/50 transition-shadow duration-300 hover:border-ink-100/[0.14] hover:shadow-glow"
           >
             <div className="relative h-52 overflow-hidden">
               <Image
@@ -98,15 +101,18 @@ export default function DiscoverPage() {
                   </Badge>
                 ))}
               </div>
-              <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full border border-white/10 bg-ink-950/70 px-2.5 py-1 text-[12px] text-white backdrop-blur">
+              <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full border border-ink-100/10 bg-ink-950/70 px-2.5 py-1 text-[12px] text-ink-100 backdrop-blur">
                 <Star className="h-3 w-3 fill-amber-300 text-amber-300" />
                 {c.rating}
               </div>
               <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
                 <div>
-                  <h3 className="text-[18px] font-semibold tracking-[-0.01em]">
+                  <Link
+                    href={`/dashboard/cafes/${c.id}`}
+                    className="text-[18px] font-semibold tracking-[-0.01em] hover:underline"
+                  >
                     {c.name}
-                  </h3>
+                  </Link>
                   <p className="mt-0.5 flex items-center gap-1 text-[12px] text-ink-200">
                     <MapPin className="h-3 w-3" />
                     {c.area}
@@ -129,17 +135,17 @@ export default function DiscoverPage() {
                   <Wifi className="h-3.5 w-3.5 text-brand-teal" />
                   {c.wifi}
                 </span>
-                <span className="text-white/10">•</span>
+                <span className="text-ink-100/10">•</span>
                 <span className="flex items-center gap-1.5">
                   <Volume2 className="h-3.5 w-3.5 text-brand-teal" />
                   {c.noise}
                 </span>
-                <span className="text-white/10">•</span>
+                <span className="text-ink-100/10">•</span>
                 <span>
                   {c.seatsAvailable}/{c.seatsTotal} seats
                 </span>
               </div>
-              <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/5">
+              <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-ink-100/5">
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{
@@ -156,7 +162,10 @@ export default function DiscoverPage() {
                     <Badge key={a}>{a}</Badge>
                   ))}
                 </div>
-                <button className="text-[12px] font-medium text-ink-200 transition-colors hover:text-white">
+                <button
+                  onClick={() => openReserve(c.id)}
+                  className="text-[12px] font-medium text-ink-200 transition-colors hover:text-ink-100"
+                >
                   Reserve →
                 </button>
               </div>

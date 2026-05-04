@@ -30,7 +30,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-[252px] shrink-0 border-r border-white/[0.06] bg-ink-950/70 px-4 py-6 backdrop-blur-xl md:flex md:flex-col">
+    <aside className="sticky top-0 hidden h-screen w-[252px] shrink-0 border-r border-ink-100/[0.06] bg-ink-950/70 px-4 py-6 backdrop-blur-xl md:flex md:flex-col">
       <div className="px-2">
         <Logo />
       </div>
@@ -55,8 +55,8 @@ export function Sidebar() {
               className={cn(
                 "group relative flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[13px] transition-colors",
                 active
-                  ? "text-white"
-                  : "text-ink-300 hover:bg-white/[0.03] hover:text-white"
+                  ? "text-ink-100"
+                  : "text-ink-300 hover:bg-ink-100/[0.03] hover:text-ink-100"
               )}
             >
               {active && (
@@ -67,7 +67,7 @@ export function Sidebar() {
                     stiffness: 380,
                     damping: 32,
                   }}
-                  className="absolute inset-0 rounded-xl border border-white/10 bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+                  className="absolute inset-0 rounded-xl border border-ink-100/10 bg-ink-100/[0.04] shadow-[inset_0_1px_0_rgba(17,16,42,0.10)]"
                 />
               )}
               <l.icon
@@ -84,10 +84,10 @@ export function Sidebar() {
 
       <Link
         href="/owner"
-        className="ring-gradient relative overflow-hidden rounded-xl p-4 text-[12px] text-ink-200 transition-colors hover:text-white"
+        className="ring-gradient relative overflow-hidden rounded-xl p-4 text-[12px] text-ink-200 transition-colors hover:text-ink-100"
       >
         <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-brand-gradient opacity-20 blur-xl" />
-        <p className="relative font-medium text-white">Run a café?</p>
+        <p className="relative font-medium text-ink-100">Run a café?</p>
         <p className="relative mt-1 leading-relaxed text-ink-300">
           Switch to the owner workspace and fill empty seats.
         </p>

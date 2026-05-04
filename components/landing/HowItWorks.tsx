@@ -47,11 +47,11 @@ export function HowItWorks() {
             <motion.div
               key={s.title}
               variants={staggerItem}
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/40 p-7 transition-all duration-500 hover:border-white/[0.14]"
+              className="group relative overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-7 transition-all duration-500 hover:border-ink-100/[0.14]"
             >
               <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-brand-gradient opacity-[0.12] blur-2xl transition-opacity duration-500 group-hover:opacity-30" />
               <div className="relative flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.04] ring-1 ring-white/10">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink-100/[0.04] ring-1 ring-ink-100/10">
                   <s.icon className="h-5 w-5 text-brand-teal" />
                 </div>
                 <span className="text-[12px] font-mono text-ink-400">

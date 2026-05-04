@@ -36,7 +36,7 @@ export function FeaturedCafes() {
               variants={staggerItem}
               whileHover={{ y: -6 }}
               transition={{ type: "spring", stiffness: 280, damping: 22 }}
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/50 transition-shadow duration-500 hover:border-white/[0.14] hover:shadow-glow"
+              className="group relative overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/50 transition-shadow duration-500 hover:border-ink-100/[0.14] hover:shadow-glow"
             >
               <div className="relative h-56 overflow-hidden">
                 <Image
@@ -55,7 +55,7 @@ export function FeaturedCafes() {
                   ))}
                 </div>
                 <div className="absolute right-3 top-3">
-                  <div className="flex items-center gap-1 rounded-full border border-white/10 bg-ink-950/70 px-2.5 py-1 text-[12px] text-white backdrop-blur">
+                  <div className="flex items-center gap-1 rounded-full border border-ink-100/10 bg-ink-950/70 px-2.5 py-1 text-[12px] text-ink-100 backdrop-blur">
                     <Star className="h-3 w-3 fill-amber-300 text-amber-300" />
                     {c.rating}
                   </div>
@@ -73,7 +73,7 @@ export function FeaturedCafes() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <div className="text-[15px] font-semibold text-white">
+                    <div className="text-[15px] font-semibold text-ink-100">
                       {c.pricePerHour}{" "}
                       <span className="text-[11px] font-normal text-ink-400">
                         SAR/hr
@@ -86,13 +86,13 @@ export function FeaturedCafes() {
                     <Wifi className="h-3.5 w-3.5 text-brand-teal" />
                     {c.wifi}
                   </span>
-                  <span className="text-white/10">•</span>
+                  <span className="text-ink-100/10">•</span>
                   <span className="flex items-center gap-1.5">
                     <Users className="h-3.5 w-3.5 text-brand-teal" />
                     {c.seatsAvailable} of {c.seatsTotal} seats
                   </span>
                 </div>
-                <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/5">
+                <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-ink-100/5">
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{

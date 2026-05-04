@@ -38,7 +38,7 @@ const statusColor: Record<Seat["status"], string> = {
   reserved:
     "bg-amber-400/10 border-amber-400/30 text-amber-300",
   offline:
-    "bg-ink-700/40 border-white/10 text-ink-400",
+    "bg-ink-700/40 border-ink-100/10 text-ink-400",
 };
 
 const statusDot: Record<Seat["status"], string> = {
@@ -85,7 +85,7 @@ export default function SeatsPage() {
             (k) => (
               <div
                 key={k}
-                className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-5"
+                className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-5"
               >
                 <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-ink-400">
                   <span
@@ -105,7 +105,7 @@ export default function SeatsPage() {
         </div>
       </FadeInUp>
 
-      <div className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6">
+      <div className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6">
         <div className="mb-5 flex items-center justify-between">
           <div>
             <h3 className="text-[15px] font-semibold">Floor plan</h3>
@@ -148,7 +148,7 @@ export default function SeatsPage() {
               <span className="text-[10px] font-mono uppercase tracking-wider text-ink-400">
                 {s.zone}
               </span>
-              <p className="mt-1 text-[15px] font-semibold text-white">
+              <p className="mt-1 text-[15px] font-semibold text-ink-100">
                 {s.id}
               </p>
               <span
@@ -171,7 +171,7 @@ export default function SeatsPage() {
 
       <FadeInUp delay={0.1}>
         <div className="mt-6 grid gap-3 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6">
+          <div className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6">
             <div className="flex items-center justify-between">
               <h3 className="text-[14px] font-semibold">Auto-release</h3>
               <Badge tone="success" dot>
@@ -182,7 +182,7 @@ export default function SeatsPage() {
               No-show seats are released automatically after 15 minutes.
             </p>
           </div>
-          <div className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6">
+          <div className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6">
             <div className="flex items-center justify-between">
               <h3 className="text-[14px] font-semibold">Quiet hours</h3>
               <Badge>09:00 — 13:00</Badge>

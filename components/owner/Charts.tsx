@@ -60,7 +60,7 @@ export function AreaChart({
           x2={w - pad.r}
           y1={pad.t + p * (h - pad.t - pad.b)}
           y2={pad.t + p * (h - pad.t - pad.b)}
-          stroke="rgba(255,255,255,0.04)"
+          stroke="rgba(17,16,42,0.06)"
         />
       ))}
 
@@ -189,7 +189,7 @@ export function Donut({
           cy={size / 2}
           r={r}
           fill="none"
-          stroke="rgba(255,255,255,0.05)"
+          stroke="rgba(17,16,42,0.08)"
           strokeWidth="14"
         />
         {data.map((d, i) => {
@@ -224,7 +224,7 @@ export function Donut({
           x="50%"
           y="48%"
           textAnchor="middle"
-          className="fill-white"
+          className="fill-ink-100"
           fontSize="22"
           fontWeight="600"
         >

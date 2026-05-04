@@ -11,7 +11,7 @@ export function Topbar({
   subtitle?: string;
 }) {
   return (
-    <div className="sticky top-0 z-40 -mx-8 mb-8 border-b border-white/[0.06] bg-ink-950/60 px-8 py-5 backdrop-blur-xl">
+    <div className="sticky top-0 z-40 -mx-8 mb-8 border-b border-ink-100/[0.06] bg-ink-950/60 px-8 py-5 backdrop-blur-xl">
       <div className="flex items-center justify-between gap-6">
         <div className="min-w-0">
           <motion.h1
@@ -39,14 +39,14 @@ export function Topbar({
             <input
               type="search"
               placeholder="Search cafés, areas, amenities…"
-              className="h-10 w-[320px] rounded-xl border border-white/[0.06] bg-white/[0.03] pl-9 pr-3 text-[13px] text-white placeholder:text-ink-400 transition-all focus:w-[400px] focus:border-white/20 focus:outline-none focus:ring-2 focus:ring-brand-teal/40"
+              className="h-10 w-[320px] rounded-xl border border-ink-100/[0.06] bg-ink-100/[0.03] pl-9 pr-3 text-[13px] text-ink-100 placeholder:text-ink-400 transition-all focus:w-[400px] focus:border-ink-100/20 focus:outline-none focus:ring-2 focus:ring-brand-teal/40"
             />
           </div>
-          <button className="relative grid h-10 w-10 place-items-center rounded-xl border border-white/[0.06] bg-white/[0.03] text-ink-200 transition-colors hover:text-white">
+          <button className="relative grid h-10 w-10 place-items-center rounded-xl border border-ink-100/[0.06] bg-ink-100/[0.03] text-ink-200 transition-colors hover:text-ink-100">
             <Bell className="h-4 w-4" />
             <span className="absolute right-2.5 top-2.5 h-1.5 w-1.5 rounded-full bg-brand-teal shadow-[0_0_8px_rgba(63,209,199,0.8)]" />
           </button>
-          <div className="flex items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.03] py-1.5 pl-1.5 pr-3.5">
+          <div className="flex items-center gap-2 rounded-xl border border-ink-100/[0.06] bg-ink-100/[0.03] py-1.5 pl-1.5 pr-3.5">
             <div className="grid h-7 w-7 place-items-center rounded-lg bg-brand-gradient text-[11px] font-semibold text-white">
               AS
             </div>

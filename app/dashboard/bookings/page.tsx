@@ -1,12 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Topbar } from "@/components/dashboard/Topbar";
 import { Badge } from "@/components/ui/Badge";
 import { Stagger, staggerItem } from "@/components/ui/AnimatedText";
-import { upcomingBookings } from "@/lib/data";
-import { CalendarDays, Clock, MapPin } from "lucide-react";
+import { useReservations } from "@/components/booking/ReservationsProvider";
+import { getCafeById, PINNED_CAFE_ID } from "@/lib/data";
+import {
+  formatDateRange,
+  formatDayLabel,
+} from "@/lib/utils";
+import { CalendarDays, Clock, MapPin, Plus } from "lucide-react";
 
 const past = [
   {
@@ -39,64 +45,115 @@ const past = [
 ];
 
 export default function BookingsPage() {
+  const { reservations, loading, openReserve } = useReservations();
+  const now = Date.now();
+  const upcoming = reservations.filter(
+    (r) => new Date(r.start_at).getTime() + r.duration_minutes * 60_000 >= now
+  );
+
   return (
     <>
       <Topbar
         title="Your bookings"
-        subtitle="Three sessions ahead, eight in your history."
+        subtitle={
+          loading
+            ? "Loading…"
+            : upcoming.length === 0
+            ? "No upcoming sessions yet — reserve one to get started."
+            : `${upcoming.length} session${
+                upcoming.length === 1 ? "" : "s"
+              } ahead.`
+        }
       />
 
-      <h2 className="mb-3 text-[12px] font-medium uppercase tracking-[0.18em] text-ink-400">
-        Upcoming
-      </h2>
-      <Stagger className="grid gap-3">
-        {upcomingBookings.map((b) => (
-          <motion.div
-            key={b.id}
-            variants={staggerItem}
-            whileHover={{ y: -2 }}
-            className="group flex items-center gap-5 rounded-2xl border border-white/[0.06] bg-ink-900/40 p-4 transition-all hover:border-white/[0.14] hover:shadow-soft"
+      <div className="mb-3 flex items-center justify-between">
+        <h2 className="text-[12px] font-medium uppercase tracking-[0.18em] text-ink-400">
+          Upcoming
+        </h2>
+        <button
+          onClick={() => openReserve(PINNED_CAFE_ID)}
+          className="btn-gradient inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[12px] font-medium text-white"
+        >
+          <Plus className="h-3.5 w-3.5" /> New reservation
+        </button>
+      </div>
+
+      {upcoming.length === 0 && !loading ? (
+        <div className="rounded-2xl border border-dashed border-ink-100/[0.10] bg-ink-100/[0.02] p-10 text-center">
+          <p className="text-[14px] text-ink-300">
+            You don&apos;t have any upcoming sessions yet.
+          </p>
+          <button
+            onClick={() => openReserve(PINNED_CAFE_ID)}
+            className="btn-gradient mt-4 inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-[13px] font-medium text-white"
           >
-            <Image
-              src={b.image}
-              alt={b.cafe}
-              width={84}
-              height={84}
-              className="h-20 w-20 flex-shrink-0 rounded-xl object-cover"
-            />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <h3 className="truncate text-[15px] font-semibold">{b.cafe}</h3>
-                <Badge tone={b.status === "confirmed" ? "success" : "warning"}>
-                  {b.status}
-                </Badge>
-              </div>
-              <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-ink-300">
-                <span className="flex items-center gap-1.5">
-                  <CalendarDays className="h-3.5 w-3.5" />
-                  {b.date}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Clock className="h-3.5 w-3.5" />
-                  {b.time}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <MapPin className="h-3.5 w-3.5" />
-                  {b.area} · {b.seat}
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[12px] text-ink-200 hover:text-white">
-                Reschedule
-              </button>
-              <button className="btn-gradient rounded-lg px-3 py-1.5 text-[12px] font-medium text-white">
-                Check in
-              </button>
-            </div>
-          </motion.div>
-        ))}
-      </Stagger>
+            <Plus className="h-3.5 w-3.5" /> Reserve a seat at Elm &amp; Grove
+          </button>
+        </div>
+      ) : (
+        <Stagger className="grid gap-3">
+          {upcoming.map((b) => {
+            const cafe = getCafeById(b.cafe_id);
+            if (!cafe) return null;
+            return (
+              <motion.div
+                key={b.id}
+                variants={staggerItem}
+                whileHover={{ y: -2 }}
+                className="group flex items-center gap-5 rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-4 transition-all hover:border-ink-100/[0.14] hover:shadow-soft"
+              >
+                <Image
+                  src={cafe.image}
+                  alt={cafe.name}
+                  width={84}
+                  height={84}
+                  className="h-20 w-20 flex-shrink-0 rounded-xl object-cover"
+                />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/dashboard/cafes/${cafe.id}`}
+                      className="truncate text-[15px] font-semibold hover:underline"
+                    >
+                      {cafe.name}
+                    </Link>
+                    <Badge
+                      tone={b.status === "confirmed" ? "success" : "warning"}
+                    >
+                      {b.status}
+                    </Badge>
+                  </div>
+                  <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-ink-300">
+                    <span className="flex items-center gap-1.5">
+                      <CalendarDays className="h-3.5 w-3.5" />
+                      {formatDayLabel(new Date(b.start_at))}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <Clock className="h-3.5 w-3.5" />
+                      {formatDateRange(b.start_at, b.duration_minutes)}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="h-3.5 w-3.5" />
+                      {cafe.area}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Link
+                    href={`/dashboard/cafes/${cafe.id}`}
+                    className="rounded-lg border border-ink-100/10 bg-ink-100/[0.03] px-3 py-1.5 text-[12px] text-ink-200 hover:text-ink-100"
+                  >
+                    View café
+                  </Link>
+                  <button className="btn-gradient rounded-lg px-3 py-1.5 text-[12px] font-medium text-white">
+                    Check in
+                  </button>
+                </div>
+              </motion.div>
+            );
+          })}
+        </Stagger>
+      )}
 
       <h2 className="mb-3 mt-10 text-[12px] font-medium uppercase tracking-[0.18em] text-ink-400">
         History
@@ -106,7 +163,7 @@ export default function BookingsPage() {
           <motion.div
             key={i}
             variants={staggerItem}
-            className="flex items-center gap-5 rounded-2xl border border-white/[0.04] bg-ink-900/30 p-4 opacity-90"
+            className="flex items-center gap-5 rounded-2xl border border-ink-100/[0.04] bg-ink-900/30 p-4 opacity-90"
           >
             <Image
               src={b.image}
@@ -126,7 +183,7 @@ export default function BookingsPage() {
                 {b.date} · {b.time} · {b.area}
               </p>
             </div>
-            <button className="text-[12px] text-ink-300 hover:text-white">
+            <button className="text-[12px] text-ink-300 hover:text-ink-100">
               Book again →
             </button>
           </motion.div>

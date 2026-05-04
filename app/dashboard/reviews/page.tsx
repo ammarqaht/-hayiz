@@ -57,7 +57,7 @@ export default function ReviewsPage() {
           ].map((s) => (
             <div
               key={s.label}
-              className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-5"
+              className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-5"
             >
               <p className="text-[11px] uppercase tracking-wider text-ink-400">
                 {s.label}
@@ -112,7 +112,7 @@ export default function ReviewsPage() {
           <motion.article
             key={r.cafe}
             variants={staggerItem}
-            className="flex gap-5 rounded-2xl border border-white/[0.06] bg-ink-900/40 p-5"
+            className="flex gap-5 rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-5"
           >
             <Image
               src={r.image}

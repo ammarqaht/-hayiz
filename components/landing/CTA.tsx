@@ -11,7 +11,7 @@ export function CTA() {
     <section className="relative py-28">
       <div className="mx-auto max-w-7xl px-6">
         <FadeInUp>
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-ink-900/50 p-12 md:p-20">
+          <div className="relative overflow-hidden rounded-3xl border border-ink-100/10 bg-ink-900/50 p-12 md:p-20">
             <motion.div
               aria-hidden
               animate={{

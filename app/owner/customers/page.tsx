@@ -76,7 +76,7 @@ export default function CustomersPage() {
           <motion.div
             key={s.label}
             variants={staggerItem}
-            className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/40 p-5"
+            className="relative overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-5"
           >
             <div className="absolute -right-12 -top-12 h-28 w-28 rounded-full bg-brand-gradient opacity-[0.08] blur-2xl" />
             <div className="flex items-center justify-between">
@@ -97,8 +97,8 @@ export default function CustomersPage() {
       </Stagger>
 
       <FadeInUp>
-        <div className="overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/40">
-          <div className="grid grid-cols-[1.6fr_0.7fr_0.9fr_1fr_1fr_0.8fr] border-b border-white/[0.06] px-6 py-3 text-[10px] font-mono uppercase tracking-wider text-ink-400">
+        <div className="overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/40">
+          <div className="grid grid-cols-[1.6fr_0.7fr_0.9fr_1fr_1fr_0.8fr] border-b border-ink-100/[0.06] px-6 py-3 text-[10px] font-mono uppercase tracking-wider text-ink-400">
             <div>Customer</div>
             <div>Visits</div>
             <div className="text-right">Spend</div>
@@ -106,12 +106,12 @@ export default function CustomersPage() {
             <div>Last visit</div>
             <div>Tier</div>
           </div>
-          <Stagger className="divide-y divide-white/[0.04]" staggerChildren={0.05}>
+          <Stagger className="divide-y divide-ink-100/[0.04]" staggerChildren={0.05}>
             {customers.map((c) => (
               <motion.div
                 key={c.name}
                 variants={staggerItem}
-                className="grid grid-cols-[1.6fr_0.7fr_0.9fr_1fr_1fr_0.8fr] items-center px-6 py-3.5 transition-colors hover:bg-white/[0.02]"
+                className="grid grid-cols-[1.6fr_0.7fr_0.9fr_1fr_1fr_0.8fr] items-center px-6 py-3.5 transition-colors hover:bg-ink-100/[0.02]"
               >
                 <div className="flex items-center gap-3">
                   <div className="grid h-9 w-9 place-items-center rounded-lg bg-brand-gradient text-[11px] font-semibold text-white">

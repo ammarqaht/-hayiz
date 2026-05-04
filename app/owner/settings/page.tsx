@@ -13,7 +13,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
       onClick={() => onChange(!on)}
       className={cn(
         "relative h-6 w-11 rounded-full transition-colors",
-        on ? "bg-brand-gradient" : "bg-white/10"
+        on ? "bg-brand-gradient" : "bg-ink-100/10"
       )}
     >
       <motion.span
@@ -43,7 +43,7 @@ export default function OwnerSettingsPage() {
       <Stagger className="grid gap-6">
         <motion.section
           variants={staggerItem}
-          className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6"
+          className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6"
         >
           <h2 className="mb-5 text-[15px] font-semibold">Café profile</h2>
           <div className="grid gap-4 md:grid-cols-2">
@@ -56,7 +56,7 @@ export default function OwnerSettingsPage() {
 
         <motion.section
           variants={staggerItem}
-          className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6"
+          className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6"
         >
           <h2 className="mb-5 text-[15px] font-semibold">Operations</h2>
           <div className="grid gap-3">
@@ -83,7 +83,7 @@ export default function OwnerSettingsPage() {
 
         <motion.section
           variants={staggerItem}
-          className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6"
+          className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6"
         >
           <h2 className="mb-5 text-[15px] font-semibold">Payouts</h2>
           <div className="grid gap-4 md:grid-cols-2">
@@ -113,7 +113,7 @@ function Field({ label, value }: { label: string; value: string }) {
       </span>
       <input
         defaultValue={value}
-        className="mt-1.5 h-11 w-full rounded-xl border border-white/[0.06] bg-white/[0.03] px-3.5 text-[13px] text-white focus:border-white/20 focus:outline-none focus:ring-2 focus:ring-brand-teal/40"
+        className="mt-1.5 h-11 w-full rounded-xl border border-ink-100/[0.06] bg-ink-100/[0.03] px-3.5 text-[13px] text-ink-100 focus:border-ink-100/20 focus:outline-none focus:ring-2 focus:ring-brand-teal/40"
       />
     </label>
   );
@@ -131,7 +131,7 @@ function Row({
   set: (v: boolean) => void;
 }) {
   return (
-    <div className="flex items-center justify-between rounded-xl border border-white/[0.04] bg-white/[0.02] p-4">
+    <div className="flex items-center justify-between rounded-xl border border-ink-100/[0.04] bg-ink-100/[0.02] p-4">
       <div>
         <p className="text-[14px] font-medium">{t}</p>
         <p className="mt-0.5 text-[12px] text-ink-300">{s}</p>

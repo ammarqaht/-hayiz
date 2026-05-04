@@ -18,13 +18,13 @@ export function Navbar() {
   const bg = useTransform(
     scrollY,
     [0, 80],
-    ["rgba(7,6,15,0)", "rgba(7,6,15,0.72)"]
+    ["rgba(250,250,253,0)", "rgba(250,250,253,0.78)"]
   );
   const blur = useTransform(scrollY, [0, 80], ["blur(0px)", "blur(14px)"]);
   const border = useTransform(
     scrollY,
     [0, 80],
-    ["rgba(255,255,255,0)", "rgba(255,255,255,0.06)"]
+    ["rgba(255,255,255,0)", "rgba(17,16,42,0.10)"]
   );
 
   return (
@@ -46,7 +46,7 @@ export function Navbar() {
             <li key={l.href}>
               <Link
                 href={l.href}
-                className="rounded-lg px-3.5 py-2 text-[13px] text-ink-200 transition-colors hover:text-white"
+                className="rounded-lg px-3.5 py-2 text-[13px] text-ink-200 transition-colors hover:text-ink-100"
               >
                 {l.label}
               </Link>
@@ -56,7 +56,7 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <Link
             href="/dashboard"
-            className="hidden rounded-lg px-3 py-2 text-[13px] text-ink-200 transition-colors hover:text-white md:inline-block"
+            className="hidden rounded-lg px-3 py-2 text-[13px] text-ink-200 transition-colors hover:text-ink-100 md:inline-block"
           >
             Sign in
           </Link>

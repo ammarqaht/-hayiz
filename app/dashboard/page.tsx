@@ -16,7 +16,13 @@ import { Topbar } from "@/components/dashboard/Topbar";
 import { CountUp } from "@/components/ui/CountUp";
 import { Badge } from "@/components/ui/Badge";
 import { Stagger, staggerItem, FadeInUp } from "@/components/ui/AnimatedText";
-import { featured, upcomingBookings } from "@/lib/data";
+import { useReservations } from "@/components/booking/ReservationsProvider";
+import {
+  featured,
+  getCafeById,
+  PINNED_CAFE_ID,
+} from "@/lib/data";
+import { formatDateRange, formatDayLabel } from "@/lib/utils";
 
 const stats = [
   { label: "Hours focused", value: 28, suf: "h", icon: Clock },
@@ -26,16 +32,29 @@ const stats = [
 ];
 
 export default function CustomerDashboardPage() {
+  const { reservations, openReserve } = useReservations();
+  const pinnedCafe = getCafeById(PINNED_CAFE_ID);
+  const now = Date.now();
+  const upcoming = reservations.filter(
+    (r) => new Date(r.start_at).getTime() + r.duration_minutes * 60_000 >= now
+  );
+
   return (
     <>
       <Topbar
         title="Good afternoon, Ammar"
-        subtitle="Here’s your week — three sessions ahead, two new spots near you."
+        subtitle={
+          upcoming.length === 0
+            ? "Reserve your first seat to get started."
+            : `${upcoming.length} session${
+                upcoming.length === 1 ? "" : "s"
+              } ahead — ${pinnedCafe?.name ?? ""} is your favorite.`
+        }
       />
 
       {/* Hero card */}
       <FadeInUp>
-        <section className="relative mb-8 overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/50">
+        <section className="relative mb-8 overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/50">
           <motion.div
             aria-hidden
             animate={{
@@ -51,44 +70,53 @@ export default function CustomerDashboardPage() {
           <div className="relative grid gap-8 p-8 md:grid-cols-[1.4fr_1fr]">
             <div>
               <Badge tone="brand" dot>
-                Live recommendation
+                Your favorite
               </Badge>
               <h2 className="mt-4 text-3xl font-semibold tracking-[-0.01em] md:text-4xl">
-                Try{" "}
-                <span className="gradient-text">North Pour</span> —{" "}
-                <span className="text-ink-200">14 quiet seats open now.</span>
+                Reserve at{" "}
+                <span className="gradient-text">
+                  {pinnedCafe?.name ?? "Elm & Grove"}
+                </span>{" "}
+                —{" "}
+                <span className="text-ink-200">
+                  {pinnedCafe?.seatsAvailable ?? 8} quiet seats open now.
+                </span>
               </h2>
               <p className="mt-3 max-w-xl text-[14px] leading-relaxed text-ink-300">
-                12 min from you · 110 mbps verified Wi-Fi · matches your usual
-                booth-by-the-window pattern.
+                {pinnedCafe?.area ?? "Al Olaya"} · ★ {pinnedCafe?.rating ?? 4.9}{" "}
+                · {pinnedCafe?.amenities.slice(0, 3).join(" · ")}
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3">
-                <Link
-                  href="/dashboard/discover"
+                <button
+                  onClick={() => openReserve(PINNED_CAFE_ID)}
                   className="btn-gradient inline-flex h-11 items-center gap-2 rounded-xl px-5 text-sm font-medium text-white"
                 >
                   Reserve a seat <ArrowUpRight className="h-4 w-4" />
-                </Link>
+                </button>
                 <Link
-                  href="/dashboard/map"
-                  className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-5 text-sm text-ink-100 transition-colors hover:bg-white/[0.06]"
+                  href={`/dashboard/cafes/${PINNED_CAFE_ID}`}
+                  className="inline-flex h-11 items-center gap-2 rounded-xl border border-ink-100/10 bg-ink-100/[0.03] px-5 text-sm text-ink-100 transition-colors hover:bg-ink-100/[0.06]"
                 >
                   <MapIcon className="h-4 w-4 text-brand-teal" />
-                  See on map
+                  View café
                 </Link>
               </div>
             </div>
-            <div className="relative overflow-hidden rounded-xl border border-white/10">
+            <div className="relative overflow-hidden rounded-xl border border-ink-100/10">
               <Image
-                src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&w=900&q=80"
-                alt="North Pour"
+                src={
+                  pinnedCafe?.image ??
+                  "https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=900&q=80"
+                }
+                alt={pinnedCafe?.name ?? "Elm & Grove"}
                 width={900}
                 height={600}
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-transparent to-transparent" />
-              <div className="absolute bottom-3 left-3 rounded-lg border border-white/10 bg-ink-950/70 px-3 py-1.5 text-[12px] text-white backdrop-blur">
-                14 / 30 seats
+              <div className="absolute bottom-3 left-3 rounded-lg border border-ink-100/10 bg-ink-950/70 px-3 py-1.5 text-[12px] text-ink-100 backdrop-blur">
+                {pinnedCafe?.seatsAvailable ?? 8} /{" "}
+                {pinnedCafe?.seatsTotal ?? 24} seats
               </div>
             </div>
           </div>
@@ -101,7 +129,7 @@ export default function CustomerDashboardPage() {
           <motion.div
             key={s.label}
             variants={staggerItem}
-            className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/40 p-5 transition-colors hover:border-white/[0.12]"
+            className="group relative overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-5 transition-colors hover:border-ink-100/[0.12]"
           >
             <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-brand-gradient opacity-[0.08] blur-2xl transition-opacity group-hover:opacity-25" />
             <div className="flex items-center justify-between">
@@ -128,71 +156,102 @@ export default function CustomerDashboardPage() {
       {/* Two columns */}
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <FadeInUp>
-          <div className="rounded-2xl border border-white/[0.06] bg-ink-900/40">
-            <div className="flex items-center justify-between border-b border-white/[0.06] px-6 py-5">
+          <div className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40">
+            <div className="flex items-center justify-between border-b border-ink-100/[0.06] px-6 py-5">
               <div>
                 <h3 className="text-[15px] font-semibold">Upcoming sessions</h3>
                 <p className="text-[12px] text-ink-400">
-                  3 confirmed · 1 pending check-in
+                  {upcoming.length === 0
+                    ? "Nothing scheduled yet"
+                    : `${upcoming.length} confirmed`}
                 </p>
               </div>
               <Link
                 href="/dashboard/bookings"
-                className="text-[12px] text-ink-200 hover:text-white"
+                className="text-[12px] text-ink-200 hover:text-ink-100"
               >
                 View all →
               </Link>
             </div>
-            <ul className="divide-y divide-white/[0.04]">
-              {upcomingBookings.map((b, i) => (
-                <motion.li
-                  key={b.id}
-                  initial={{ opacity: 0, x: -16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.05 * i, duration: 0.5 }}
-                  className="group flex items-center gap-4 px-6 py-4 transition-colors hover:bg-white/[0.02]"
+            {upcoming.length === 0 ? (
+              <div className="px-6 py-10 text-center">
+                <p className="text-[13px] text-ink-300">
+                  Book a seat at {pinnedCafe?.name ?? "your café"} and it&apos;ll
+                  show up here.
+                </p>
+                <button
+                  onClick={() => openReserve(PINNED_CAFE_ID)}
+                  className="btn-gradient mt-4 inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-[12px] font-medium text-white"
                 >
-                  <Image
-                    src={b.image}
-                    width={56}
-                    height={56}
-                    alt={b.cafe}
-                    className="h-14 w-14 flex-shrink-0 rounded-xl object-cover"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <p className="truncate text-[14px] font-medium">
-                        {b.cafe}
-                      </p>
-                      <Badge
-                        tone={b.status === "confirmed" ? "success" : "warning"}
+                  Reserve a seat
+                </button>
+              </div>
+            ) : (
+              <ul className="divide-y divide-ink-100/[0.04]">
+                {upcoming.slice(0, 4).map((b, i) => {
+                  const cafe = getCafeById(b.cafe_id);
+                  if (!cafe) return null;
+                  return (
+                    <motion.li
+                      key={b.id}
+                      initial={{ opacity: 0, x: -16 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.05 * i, duration: 0.5 }}
+                      className="group flex items-center gap-4 px-6 py-4 transition-colors hover:bg-ink-100/[0.02]"
+                    >
+                      <Image
+                        src={cafe.image}
+                        width={56}
+                        height={56}
+                        alt={cafe.name}
+                        className="h-14 w-14 flex-shrink-0 rounded-xl object-cover"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <Link
+                            href={`/dashboard/cafes/${cafe.id}`}
+                            className="truncate text-[14px] font-medium hover:underline"
+                          >
+                            {cafe.name}
+                          </Link>
+                          <Badge
+                            tone={
+                              b.status === "confirmed" ? "success" : "warning"
+                            }
+                          >
+                            {b.status}
+                          </Badge>
+                        </div>
+                        <p className="mt-0.5 text-[12px] text-ink-300">
+                          {formatDayLabel(new Date(b.start_at))} ·{" "}
+                          {formatDateRange(b.start_at, b.duration_minutes)} ·{" "}
+                          {cafe.area}
+                        </p>
+                      </div>
+                      <Link
+                        href={`/dashboard/cafes/${cafe.id}`}
+                        className="rounded-lg border border-ink-100/10 bg-ink-100/[0.03] px-3 py-1.5 text-[12px] text-ink-200 opacity-0 transition-all group-hover:opacity-100 hover:text-ink-100"
                       >
-                        {b.status}
-                      </Badge>
-                    </div>
-                    <p className="mt-0.5 text-[12px] text-ink-300">
-                      {b.date} · {b.time} · {b.seat} · {b.area}
-                    </p>
-                  </div>
-                  <button className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[12px] text-ink-200 opacity-0 transition-all group-hover:opacity-100 hover:text-white">
-                    Manage
-                  </button>
-                </motion.li>
-              ))}
-            </ul>
+                        Manage
+                      </Link>
+                    </motion.li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
         </FadeInUp>
 
         <FadeInUp delay={0.1}>
-          <div className="rounded-2xl border border-white/[0.06] bg-ink-900/40">
-            <div className="border-b border-white/[0.06] px-6 py-5">
+          <div className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40">
+            <div className="border-b border-ink-100/[0.06] px-6 py-5">
               <h3 className="text-[15px] font-semibold">For you, today</h3>
               <p className="text-[12px] text-ink-400">
                 Picked from your favorite areas
               </p>
             </div>
-            <ul className="divide-y divide-white/[0.04]">
+            <ul className="divide-y divide-ink-100/[0.04]">
               {featured.slice(0, 4).map((c, i) => (
                 <motion.li
                   key={c.id}
@@ -200,7 +259,7 @@ export default function CustomerDashboardPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.06 * i, duration: 0.45 }}
-                  className="group flex items-center gap-3 px-6 py-3.5 transition-colors hover:bg-white/[0.02]"
+                  className="group flex items-center gap-3 px-6 py-3.5 transition-colors hover:bg-ink-100/[0.02]"
                 >
                   <Image
                     src={c.image}
@@ -210,12 +269,22 @@ export default function CustomerDashboardPage() {
                     className="h-11 w-11 rounded-lg object-cover"
                   />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-[13px] font-medium">{c.name}</p>
+                    <Link
+                      href={`/dashboard/cafes/${c.id}`}
+                      className="block truncate text-[13px] font-medium hover:underline"
+                    >
+                      {c.name}
+                    </Link>
                     <p className="truncate text-[11px] text-ink-300">
                       {c.area} · {c.seatsAvailable} seats · ★ {c.rating}
                     </p>
                   </div>
-                  <ArrowUpRight className="h-4 w-4 text-ink-400 transition-colors group-hover:text-brand-teal" />
+                  <Link
+                    href={`/dashboard/cafes/${c.id}`}
+                    aria-label={`View ${c.name}`}
+                  >
+                    <ArrowUpRight className="h-4 w-4 text-ink-400 transition-colors group-hover:text-brand-teal" />
+                  </Link>
                 </motion.li>
               ))}
             </ul>

@@ -34,7 +34,7 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-7xl px-6">
         <FadeInUp delay={0.1}>
-          <div className="mx-auto mb-8 flex w-max items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-[12px] text-ink-200 backdrop-blur-md">
+          <div className="mx-auto mb-8 flex w-max items-center gap-2 rounded-full border border-ink-100/10 bg-ink-100/[0.04] px-3.5 py-1.5 text-[12px] text-ink-200 backdrop-blur-md">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-teal opacity-75" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-teal" />
@@ -104,7 +104,7 @@ export function Hero() {
           className="relative mx-auto mt-20 max-w-5xl"
         >
           <div className="absolute -inset-x-12 -top-10 -bottom-10 rounded-[40px] bg-gradient-to-r from-brand-violet/30 via-brand-blue/30 to-brand-teal/30 opacity-50 blur-3xl" />
-          <div className="relative rounded-2xl border border-white/10 bg-ink-900/70 p-2 shadow-glow-lg backdrop-blur-2xl">
+          <div className="relative rounded-2xl border border-ink-100/10 bg-ink-900/70 p-2 shadow-glow-lg backdrop-blur-2xl">
             <div className="flex items-center gap-1.5 px-3 py-2">
               <span className="h-2.5 w-2.5 rounded-full bg-red-400/60" />
               <span className="h-2.5 w-2.5 rounded-full bg-amber-300/60" />
@@ -127,10 +127,10 @@ function HeroMockup() {
   // tiny stylized preview for the hero
   return (
     <div className="grid h-[420px] grid-cols-12 gap-3 p-4">
-      <div className="col-span-3 rounded-xl border border-white/5 bg-ink-900/80 p-3">
+      <div className="col-span-3 rounded-xl border border-ink-100/5 bg-ink-900/80 p-3">
         <div className="mb-3 flex items-center gap-2">
           <div className="h-7 w-7 rounded-lg bg-brand-gradient" />
-          <div className="h-2.5 w-20 rounded bg-white/10" />
+          <div className="h-2.5 w-20 rounded bg-ink-100/10" />
         </div>
         <div className="space-y-1.5">
           {["Dashboard", "Map", "Discover", "Calendar", "Bookings"].map(
@@ -139,7 +139,7 @@ function HeroMockup() {
                 key={l}
                 className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-[11px] ${
                   i === 1
-                    ? "bg-white/[0.06] text-white"
+                    ? "bg-ink-100/[0.06] text-ink-100"
                     : "text-ink-300"
                 }`}
               >
@@ -155,7 +155,7 @@ function HeroMockup() {
           {["Live seats", "Avg Wi-Fi", "Avg rating"].map((s, i) => (
             <div
               key={s}
-              className="rounded-xl border border-white/5 bg-ink-900/80 p-3"
+              className="rounded-xl border border-ink-100/5 bg-ink-900/80 p-3"
             >
               <div className="text-[10px] uppercase tracking-wider text-ink-400">
                 {s}
@@ -166,7 +166,7 @@ function HeroMockup() {
             </div>
           ))}
         </div>
-        <div className="relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-br from-ink-900 to-ink-950">
+        <div className="relative overflow-hidden rounded-xl border border-ink-100/5 bg-gradient-to-br from-ink-900 to-ink-950">
           <svg viewBox="0 0 600 240" className="h-full w-full">
             <defs>
               <linearGradient id="hl" x1="0" y1="0" x2="600" y2="0">
@@ -183,7 +183,7 @@ function HeroMockup() {
                 y1={y}
                 x2="600"
                 y2={y}
-                stroke="rgba(255,255,255,0.04)"
+                stroke="rgba(17,16,42,0.06)"
               />
             ))}
             {[80, 200, 320, 440, 560].map((x) => (
@@ -193,7 +193,7 @@ function HeroMockup() {
                 y1="0"
                 x2={x}
                 y2="240"
-                stroke="rgba(255,255,255,0.04)"
+                stroke="rgba(17,16,42,0.06)"
               />
             ))}
             {/* path */}

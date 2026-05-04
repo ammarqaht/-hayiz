@@ -22,10 +22,10 @@ const variants: Record<Variant, string> = {
   primary:
     "btn-gradient text-white shadow-[0_8px_28px_-12px_rgba(63,209,199,0.55)] hover:shadow-[0_18px_50px_-12px_rgba(43,91,215,0.6)]",
   secondary:
-    "glass-strong text-ink-100 hover:bg-white/[0.06] border border-white/10",
-  ghost: "text-ink-200 hover:text-white hover:bg-white/5",
+    "glass-strong text-ink-100 hover:bg-ink-100/[0.06] border border-ink-100/10",
+  ghost: "text-ink-200 hover:text-ink-100 hover:bg-ink-100/5",
   outline:
-    "ring-gradient text-white bg-transparent hover:bg-white/[0.04]",
+    "ring-gradient text-ink-100 bg-transparent hover:bg-ink-100/[0.04]",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

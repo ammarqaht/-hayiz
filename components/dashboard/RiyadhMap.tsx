@@ -25,7 +25,7 @@ export function RiyadhMap() {
   const [zoom, setZoom] = useState(1);
 
   return (
-    <div className="relative h-[calc(100vh-180px)] overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/40">
+    <div className="relative h-[calc(100vh-180px)] overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/40">
       {/* Backdrop */}
       <div
         aria-hidden
@@ -76,8 +76,8 @@ export function RiyadhMap() {
                 width={w}
                 height={h}
                 rx="8"
-                fill="rgba(255,255,255,0.018)"
-                stroke="rgba(255,255,255,0.04)"
+                fill="rgba(17,16,42,0.025)"
+                stroke="rgba(17,16,42,0.06)"
               />
             );
           })}
@@ -162,14 +162,14 @@ export function RiyadhMap() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="pointer-events-auto rounded-xl border border-white/10 bg-ink-950/70 px-4 py-2.5 text-[12px] backdrop-blur"
+          className="pointer-events-auto rounded-xl border border-ink-100/10 bg-ink-950/70 px-4 py-2.5 text-[12px] backdrop-blur"
         >
           <div className="flex items-center gap-2">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-teal opacity-70" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-teal" />
             </span>
-            <span className="text-white">Live · Riyadh</span>
+            <span className="text-ink-100">Live · Riyadh</span>
             <span className="text-ink-400">·</span>
             <span className="text-ink-300">{cafes.length} cafés open now</span>
           </div>
@@ -178,17 +178,17 @@ export function RiyadhMap() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="pointer-events-auto flex flex-col gap-1.5 rounded-xl border border-white/10 bg-ink-950/70 p-1.5 backdrop-blur"
+          className="pointer-events-auto flex flex-col gap-1.5 rounded-xl border border-ink-100/10 bg-ink-950/70 p-1.5 backdrop-blur"
         >
           <button
             onClick={() => setZoom((z) => Math.min(1.6, z + 0.15))}
-            className="grid h-8 w-8 place-items-center rounded-lg text-ink-200 transition-colors hover:bg-white/[0.06] hover:text-white"
+            className="grid h-8 w-8 place-items-center rounded-lg text-ink-200 transition-colors hover:bg-ink-100/[0.06] hover:text-ink-100"
           >
             <Plus className="h-4 w-4" />
           </button>
           <button
             onClick={() => setZoom((z) => Math.max(0.85, z - 0.15))}
-            className="grid h-8 w-8 place-items-center rounded-lg text-ink-200 transition-colors hover:bg-white/[0.06] hover:text-white"
+            className="grid h-8 w-8 place-items-center rounded-lg text-ink-200 transition-colors hover:bg-ink-100/[0.06] hover:text-ink-100"
           >
             <Minus className="h-4 w-4" />
           </button>
@@ -204,7 +204,7 @@ export function RiyadhMap() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 32 }}
             transition={{ type: "spring", stiffness: 320, damping: 32 }}
-            className="absolute bottom-5 left-1/2 w-[min(96%,640px)] -translate-x-1/2 overflow-hidden rounded-2xl border border-white/10 bg-ink-900/90 shadow-glow-lg backdrop-blur-xl"
+            className="absolute bottom-5 left-1/2 w-[min(96%,640px)] -translate-x-1/2 overflow-hidden rounded-2xl border border-ink-100/10 bg-ink-900/90 shadow-glow-lg backdrop-blur-xl"
           >
             <div className="flex">
               <div className="relative h-44 w-56 flex-shrink-0 overflow-hidden">
@@ -235,7 +235,7 @@ export function RiyadhMap() {
                   </div>
                   <button
                     onClick={() => setSelected(null)}
-                    className="grid h-8 w-8 place-items-center rounded-lg text-ink-300 transition-colors hover:bg-white/5 hover:text-white"
+                    className="grid h-8 w-8 place-items-center rounded-lg text-ink-300 transition-colors hover:bg-ink-100/5 hover:text-ink-100"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -317,8 +317,8 @@ function Pin({
       <span
         className={`relative grid h-10 w-10 place-items-center rounded-full text-[12px] font-semibold text-white transition-all ${
           sold
-            ? "bg-ink-700 ring-2 ring-white/10"
-            : "bg-gradient-to-br from-brand-violet via-brand-blue to-brand-teal ring-2 ring-white/30 shadow-[0_8px_30px_-6px_rgba(63,209,199,0.6)]"
+            ? "bg-ink-300 ring-2 ring-ink-100/10"
+            : "bg-gradient-to-br from-brand-violet via-brand-blue to-brand-teal ring-2 ring-ink-100/30 shadow-[0_8px_30px_-6px_rgba(63,209,199,0.6)]"
         } ${active ? "scale-125" : ""}`}
       >
         {sold ? "—" : cafe.seatsAvailable}
@@ -328,7 +328,7 @@ function Pin({
       </span>
 
       {/* Hover label */}
-      <span className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-white/10 bg-ink-950/95 px-2 py-0.5 text-[10px] text-ink-100 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
+      <span className="pointer-events-none absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-ink-100/10 bg-ink-950/95 px-2 py-0.5 text-[10px] text-ink-100 opacity-0 backdrop-blur transition-opacity group-hover:opacity-100">
         {cafe.name}
       </span>
     </motion.button>

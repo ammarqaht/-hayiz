@@ -65,7 +65,7 @@ export default function OwnerOverviewPage() {
           <motion.div
             key={s.label}
             variants={staggerItem}
-            className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/40 p-5 transition-colors hover:border-white/[0.12]"
+            className="group relative overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-5 transition-colors hover:border-ink-100/[0.12]"
           >
             <div className="absolute -right-12 -top-12 h-28 w-28 rounded-full bg-brand-gradient opacity-[0.08] blur-2xl transition-opacity group-hover:opacity-30" />
             <div className="flex items-center justify-between">
@@ -92,7 +92,7 @@ export default function OwnerOverviewPage() {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <FadeInUp>
-          <div className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6">
+          <div className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-[15px] font-semibold">Weekly revenue</h3>
@@ -100,14 +100,14 @@ export default function OwnerOverviewPage() {
                   Last 7 days · in SAR
                 </p>
               </div>
-              <div className="flex items-center gap-1 rounded-lg border border-white/10 bg-white/[0.03] p-1 text-[11px] text-ink-300">
+              <div className="flex items-center gap-1 rounded-lg border border-ink-100/10 bg-ink-100/[0.03] p-1 text-[11px] text-ink-300">
                 {["7D", "30D", "QTR"].map((p, i) => (
                   <button
                     key={p}
                     className={`rounded-md px-2 py-1 transition-colors ${
                       i === 0
-                        ? "bg-white/[0.07] text-white"
-                        : "hover:text-white"
+                        ? "bg-ink-100/[0.07] text-ink-100"
+                        : "hover:text-ink-100"
                     }`}
                   >
                     {p}
@@ -127,7 +127,7 @@ export default function OwnerOverviewPage() {
         </FadeInUp>
 
         <FadeInUp delay={0.1}>
-          <div className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6">
+          <div className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6">
             <h3 className="text-[15px] font-semibold">Booking channels</h3>
             <p className="text-[12px] text-ink-400">Where today’s bookings came from</p>
             <div className="mt-6">
@@ -139,7 +139,7 @@ export default function OwnerOverviewPage() {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
         <FadeInUp>
-          <div className="rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6">
+          <div className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6">
             <h3 className="text-[15px] font-semibold">Hourly occupancy</h3>
             <p className="text-[12px] text-ink-400">Today · % seats filled</p>
             <div className="mt-5 h-[230px]">
@@ -154,17 +154,17 @@ export default function OwnerOverviewPage() {
         </FadeInUp>
 
         <FadeInUp delay={0.1}>
-          <div className="rounded-2xl border border-white/[0.06] bg-ink-900/40">
-            <div className="flex items-center justify-between border-b border-white/[0.06] px-6 py-5">
+          <div className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40">
+            <div className="flex items-center justify-between border-b border-ink-100/[0.06] px-6 py-5">
               <div>
                 <h3 className="text-[15px] font-semibold">Live reservations</h3>
                 <p className="text-[12px] text-ink-400">Updated in real-time</p>
               </div>
-              <button className="text-[12px] text-ink-200 hover:text-white">
+              <button className="text-[12px] text-ink-200 hover:text-ink-100">
                 View all <ArrowUpRight className="ml-1 inline h-3 w-3" />
               </button>
             </div>
-            <ul className="divide-y divide-white/[0.04]">
+            <ul className="divide-y divide-ink-100/[0.04]">
               {reservations.slice(0, 5).map((r, i) => (
                 <motion.li
                   key={r.id}

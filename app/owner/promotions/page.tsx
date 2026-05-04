@@ -98,10 +98,10 @@ export default function PromotionsPage() {
               </div>
             </div>
             <div className="relative mt-5 flex items-center gap-2">
-              <button className="rounded-lg border border-white/10 bg-white/[0.05] px-3 py-1.5 text-[12px] text-ink-200 transition-colors hover:text-white">
+              <button className="rounded-lg border border-ink-100/10 bg-ink-100/[0.05] px-3 py-1.5 text-[12px] text-ink-200 transition-colors hover:text-ink-100">
                 Edit
               </button>
-              <button className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-1.5 text-[12px] text-ink-300 transition-colors hover:text-white">
+              <button className="rounded-lg border border-ink-100/10 bg-ink-100/[0.02] px-3 py-1.5 text-[12px] text-ink-300 transition-colors hover:text-ink-100">
                 Pause
               </button>
             </div>
@@ -110,7 +110,7 @@ export default function PromotionsPage() {
       </Stagger>
 
       <FadeInUp delay={0.1}>
-        <div className="mt-10 rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6">
+        <div className="mt-10 rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6">
           <div className="flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.18em] text-ink-400">
             <Sparkles className="h-3 w-3 text-brand-teal" />
             HAYIZ suggestions
@@ -138,7 +138,7 @@ export default function PromotionsPage() {
             ].map((s) => (
               <div
                 key={s.t}
-                className="rounded-xl border border-white/[0.04] bg-white/[0.02] p-4"
+                className="rounded-xl border border-ink-100/[0.04] bg-ink-100/[0.02] p-4"
               >
                 <s.icon className="h-4 w-4 text-brand-teal" />
                 <p className="mt-2 text-[14px] font-medium">{s.t}</p>

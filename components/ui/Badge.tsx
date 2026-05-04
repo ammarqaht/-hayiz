@@ -3,12 +3,12 @@ import { cn } from "@/lib/utils";
 type Tone = "neutral" | "success" | "warning" | "info" | "brand";
 
 const tones: Record<Tone, string> = {
-  neutral: "bg-white/5 text-ink-200 border-white/10",
+  neutral: "bg-ink-100/5 text-ink-200 border-ink-100/10",
   success: "bg-emerald-400/10 text-emerald-300 border-emerald-400/20",
   warning: "bg-amber-400/10 text-amber-300 border-amber-400/20",
   info: "bg-sky-400/10 text-sky-300 border-sky-400/20",
   brand:
-    "bg-gradient-to-r from-brand-violet/20 via-brand-blue/20 to-brand-teal/20 text-ink-100 border-white/10",
+    "bg-gradient-to-r from-brand-violet/20 via-brand-blue/20 to-brand-teal/20 text-ink-100 border-ink-100/10",
 };
 
 export function Badge({

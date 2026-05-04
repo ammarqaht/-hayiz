@@ -1,25 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { Topbar } from "@/components/dashboard/Topbar";
-import { cn } from "@/lib/utils";
-
-const events: Record<string, { cafe: string; time: string; tone: string }[]> = {
-  "2026-04-28": [
-    { cafe: "Elm & Grove", time: "14:00 — 17:00", tone: "violet" },
-  ],
-  "2026-04-30": [
-    { cafe: "North Pour", time: "09:30 — 13:00", tone: "blue" },
-  ],
-  "2026-05-03": [
-    { cafe: "Mira Roastery", time: "10:00 — 12:00", tone: "teal" },
-  ],
-  "2026-05-07": [
-    { cafe: "Atlas Coffee", time: "15:00 — 18:00", tone: "violet" },
-  ],
-};
+import { useReservations } from "@/components/booking/ReservationsProvider";
+import { getCafeById, PINNED_CAFE_ID } from "@/lib/data";
+import { cn, formatDateRange, isoDateKey } from "@/lib/utils";
 
 const tones: Record<string, string> = {
   violet: "from-brand-violet/40 to-brand-violet/10 ring-brand-violet/40",
@@ -27,13 +14,37 @@ const tones: Record<string, string> = {
   teal: "from-brand-teal/40 to-brand-teal/10 ring-brand-teal/40",
 };
 
+const toneCycle: Array<keyof typeof tones> = ["violet", "blue", "teal"];
+
 function pad(n: number) {
   return n.toString().padStart(2, "0");
 }
 
+type EventEntry = { cafe: string; time: string; tone: string };
+
 export default function CalendarPage() {
-  const [view, setView] = useState(new Date(2026, 3, 1)); // April 2026
-  const [selected, setSelected] = useState<string | null>("2026-04-28");
+  const { reservations, openReserve } = useReservations();
+  const today = useMemo(() => new Date(), []);
+  const [view, setView] = useState(
+    () => new Date(today.getFullYear(), today.getMonth(), 1)
+  );
+  const [selected, setSelected] = useState<string | null>(isoDateKey(today));
+
+  const events = useMemo(() => {
+    const map: Record<string, EventEntry[]> = {};
+    reservations.forEach((r, idx) => {
+      const start = new Date(r.start_at);
+      const key = isoDateKey(start);
+      const cafe = getCafeById(r.cafe_id);
+      if (!cafe) return;
+      (map[key] ??= []).push({
+        cafe: cafe.name,
+        time: formatDateRange(r.start_at, r.duration_minutes),
+        tone: toneCycle[idx % toneCycle.length],
+      });
+    });
+    return map;
+  }, [reservations]);
 
   const year = view.getFullYear();
   const month = view.getMonth();
@@ -56,18 +67,18 @@ export default function CalendarPage() {
         subtitle="A focused view of your week."
       />
 
-      <div className="rounded-2xl border border-white/[0.06] bg-ink-900/40">
-        <div className="flex items-center justify-between border-b border-white/[0.06] p-5">
+      <div className="rounded-2xl border border-ink-100/[0.06] bg-ink-900/40">
+        <div className="flex items-center justify-between border-b border-ink-100/[0.06] p-5">
           <div className="flex items-center gap-2">
             <button
               onClick={() => change(-1)}
-              className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/[0.03] text-ink-200 transition-colors hover:text-white"
+              className="grid h-9 w-9 place-items-center rounded-lg border border-ink-100/10 bg-ink-100/[0.03] text-ink-200 transition-colors hover:text-ink-100"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               onClick={() => change(1)}
-              className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 bg-white/[0.03] text-ink-200 transition-colors hover:text-white"
+              className="grid h-9 w-9 place-items-center rounded-lg border border-ink-100/10 bg-ink-100/[0.03] text-ink-200 transition-colors hover:text-ink-100"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -76,12 +87,15 @@ export default function CalendarPage() {
               <span className="text-ink-400">{year}</span>
             </h2>
           </div>
-          <button className="btn-gradient inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-[12px] font-medium text-white">
+          <button
+            onClick={() => openReserve(PINNED_CAFE_ID)}
+            className="btn-gradient inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-[12px] font-medium text-white"
+          >
             <Plus className="h-3.5 w-3.5" /> New session
           </button>
         </div>
 
-        <div className="grid grid-cols-7 border-b border-white/[0.04] text-[11px] font-mono uppercase tracking-wider text-ink-400">
+        <div className="grid grid-cols-7 border-b border-ink-100/[0.04] text-[11px] font-mono uppercase tracking-wider text-ink-400">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
             <div key={d} className="px-3 py-2.5">
               {d}
@@ -110,10 +124,10 @@ export default function CalendarPage() {
                   onClick={() => d && setSelected(key)}
                   whileHover={d ? { scale: 1.02 } : undefined}
                   className={cn(
-                    "relative h-28 border-b border-r border-white/[0.04] p-2 text-left transition-colors",
+                    "relative h-28 border-b border-r border-ink-100/[0.04] p-2 text-left transition-colors",
                     !d && "bg-ink-950/30",
-                    d && "hover:bg-white/[0.03]",
-                    isSelected && "bg-white/[0.05]"
+                    d && "hover:bg-ink-100/[0.03]",
+                    isSelected && "bg-ink-100/[0.05]"
                   )}
                 >
                   {d && (
@@ -140,7 +154,7 @@ export default function CalendarPage() {
                               tones[e.tone]
                             )}
                           >
-                            <p className="font-medium text-white">{e.cafe}</p>
+                            <p className="font-medium text-ink-100">{e.cafe}</p>
                             <p className="text-ink-200">{e.time}</p>
                           </motion.div>
                         ))}

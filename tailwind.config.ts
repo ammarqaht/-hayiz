@@ -18,17 +18,20 @@ const config: Config = {
           teal: "#3FD1C7",
           mint: "#7AE7C7",
         },
+        // Ink scale flipped for light theme:
+        // 950 = lightest page surface, 100 = deepest text.
+        // Component classes like bg-ink-950 / text-ink-100 keep their semantics.
         ink: {
-          950: "#07060F",
-          900: "#0B0A18",
-          800: "#11102A",
-          700: "#1A1936",
-          600: "#272548",
-          500: "#3A375F",
-          400: "#5A567C",
-          300: "#8B88AB",
-          200: "#BEBCD3",
-          100: "#E4E3F0",
+          950: "#FAFAFD",
+          900: "#F3F2F8",
+          800: "#E9E7F1",
+          700: "#DAD7E6",
+          600: "#C4C0D5",
+          500: "#9C98B6",
+          400: "#6E6A8C",
+          300: "#4A4769",
+          200: "#272548",
+          100: "#11102A",
         },
       },
       fontFamily: {
@@ -41,14 +44,14 @@ const config: Config = {
         "brand-gradient-soft":
           "linear-gradient(135deg, rgba(58,31,140,0.16), rgba(43,91,215,0.16) 50%, rgba(63,209,199,0.16))",
         "brand-radial":
-          "radial-gradient(60% 60% at 50% 40%, rgba(81,50,183,0.45) 0%, rgba(31,160,207,0.25) 50%, rgba(11,10,24,0) 75%)",
-        grid: "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          "radial-gradient(60% 60% at 50% 40%, rgba(81,50,183,0.18) 0%, rgba(31,160,207,0.10) 50%, rgba(250,250,253,0) 75%)",
+        grid: "linear-gradient(rgba(17,16,42,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(17,16,42,0.05) 1px, transparent 1px)",
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(122,231,199,0.25), 0 12px 40px -8px rgba(81,50,183,0.55)",
+        glow: "0 0 0 1px rgba(63,209,199,0.30), 0 12px 40px -8px rgba(81,50,183,0.22)",
         "glow-lg":
-          "0 0 0 1px rgba(122,231,199,0.35), 0 24px 80px -16px rgba(43,91,215,0.6)",
-        soft: "0 8px 32px -12px rgba(11,10,24,0.6)",
+          "0 0 0 1px rgba(63,209,199,0.35), 0 24px 80px -16px rgba(43,91,215,0.25)",
+        soft: "0 8px 32px -12px rgba(17,16,42,0.18)",
       },
       animation: {
         shimmer: "shimmer 2.4s linear infinite",

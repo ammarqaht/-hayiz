@@ -72,10 +72,10 @@ export function Benefits() {
             <motion.div
               key={it.title}
               variants={staggerItem}
-              className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-ink-900/40 p-6 transition-all duration-500 hover:border-white/[0.12] hover:bg-ink-900/60"
+              className="group relative overflow-hidden rounded-2xl border border-ink-100/[0.06] bg-ink-900/40 p-6 transition-all duration-500 hover:border-ink-100/[0.12] hover:bg-ink-900/60"
             >
               <div className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-brand-gradient opacity-[0.08] blur-2xl transition-opacity group-hover:opacity-25" />
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.04] ring-1 ring-white/10">
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-ink-100/[0.04] ring-1 ring-ink-100/10">
                 <it.icon className="h-5 w-5 text-brand-teal" />
               </div>
               <h3 className="relative mt-5 text-[17px] font-semibold">
@@ -89,7 +89,7 @@ export function Benefits() {
         </Stagger>
 
         <FadeInUp delay={0.1}>
-          <div className="mt-20 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/5 md:grid-cols-4">
+          <div className="mt-20 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-ink-100/10 bg-ink-100/5 md:grid-cols-4">
             {stats.map((s) => (
               <div
                 key={s.label}
