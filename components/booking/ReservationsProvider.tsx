@@ -16,6 +16,7 @@ type Ctx = {
   loading: boolean;
   refresh: () => Promise<void>;
   openReserve: (cafeId: string) => void;
+  cancelReservation: (id: string) => Promise<boolean>;
 };
 
 const ReservationsContext = createContext<Ctx | null>(null);
@@ -55,9 +56,30 @@ export function ReservationsProvider({
     setDialogCafeId(cafeId);
   }, []);
 
+  const cancelReservation = useCallback(
+    async (id: string) => {
+      // Optimistic remove so the UI feels snappy.
+      setReservations((prev) => prev.filter((r) => r.id !== id));
+      const res = await fetch(`/api/reservations/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        // Revert by refetching the truth.
+        await refresh();
+        return false;
+      }
+      return true;
+    },
+    [refresh]
+  );
+
   const value = useMemo(
-    () => ({ reservations, loading, refresh, openReserve }),
-    [reservations, loading, refresh, openReserve]
+    () => ({
+      reservations,
+      loading,
+      refresh,
+      openReserve,
+      cancelReservation,
+    }),
+    [reservations, loading, refresh, openReserve, cancelReservation]
   );
 
   return (

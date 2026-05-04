@@ -12,7 +12,8 @@ import {
   formatDateRange,
   formatDayLabel,
 } from "@/lib/utils";
-import { CalendarDays, Clock, MapPin, Plus } from "lucide-react";
+import { CalendarDays, Clock, MapPin, Plus, X } from "lucide-react";
+import { useState } from "react";
 
 const past = [
   {
@@ -45,11 +46,20 @@ const past = [
 ];
 
 export default function BookingsPage() {
-  const { reservations, loading, openReserve } = useReservations();
+  const { reservations, loading, openReserve, cancelReservation } =
+    useReservations();
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
   const now = Date.now();
   const upcoming = reservations.filter(
     (r) => new Date(r.start_at).getTime() + r.duration_minutes * 60_000 >= now
   );
+
+  async function handleCancel(id: string, label: string) {
+    if (!window.confirm(`Cancel your reservation at ${label}?`)) return;
+    setCancellingId(id);
+    await cancelReservation(id);
+    setCancellingId(null);
+  }
 
   return (
     <>
@@ -145,8 +155,13 @@ export default function BookingsPage() {
                   >
                     View café
                   </Link>
-                  <button className="btn-gradient rounded-lg px-3 py-1.5 text-[12px] font-medium text-white">
-                    Check in
+                  <button
+                    onClick={() => handleCancel(b.id, cafe.name)}
+                    disabled={cancellingId === b.id}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-red-500/30 bg-red-500/[0.06] px-3 py-1.5 text-[12px] font-medium text-red-600 transition-colors hover:bg-red-500/[0.12] disabled:opacity-60"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                    {cancellingId === b.id ? "Cancelling…" : "Cancel"}
                   </button>
                 </div>
               </motion.div>
