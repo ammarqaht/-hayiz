@@ -1,8 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Calendar, Clock, MapPin, X, Check } from "lucide-react";
+import { Calendar, Clock, MapPin, User, X, Check } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+
+const NAME_STORAGE_KEY = "hayiz:customer_name";
 import { Button } from "@/components/ui/Button";
 import { getCafeById } from "@/lib/data";
 import {
@@ -32,6 +34,7 @@ export function ReserveDialog({ cafeId, onClose, onCreated }: Props) {
     toLocalDatetimeInputValue(nextHalfHour())
   );
   const [duration, setDuration] = useState(120);
+  const [name, setName] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,6 +44,11 @@ export function ReserveDialog({ cafeId, onClose, onCreated }: Props) {
       setStartInput(toLocalDatetimeInputValue(nextHalfHour()));
       setDuration(120);
       setError(null);
+      const saved =
+        typeof window !== "undefined"
+          ? window.localStorage.getItem(NAME_STORAGE_KEY) ?? ""
+          : "";
+      setName(saved);
     }
   }, [cafeId]);
 
@@ -57,6 +65,11 @@ export function ReserveDialog({ cafeId, onClose, onCreated }: Props) {
 
   async function handleConfirm() {
     if (!cafe) return;
+    const trimmed = name.trim();
+    if (!trimmed) {
+      setError("Please add your name so the café knows who's coming.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
     try {
@@ -67,12 +80,14 @@ export function ReserveDialog({ cafeId, onClose, onCreated }: Props) {
           cafeId: cafe.id,
           startAt: startDate.toISOString(),
           durationMinutes: duration,
+          customerName: trimmed,
         }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data?.error ?? "Failed to reserve");
       }
+      window.localStorage.setItem(NAME_STORAGE_KEY, trimmed);
       onCreated();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -130,6 +145,23 @@ export function ReserveDialog({ cafeId, onClose, onCreated }: Props) {
             </p>
 
             <div className="mt-6 space-y-4">
+              <label className="block">
+                <span className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-ink-400">
+                  <User className="h-3 w-3" /> Your name
+                </span>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Ammar Salem"
+                  autoFocus
+                  className="mt-1.5 h-11 w-full rounded-xl border border-ink-100/[0.08] bg-ink-100/[0.03] px-3.5 text-[13px] text-ink-100 placeholder:text-ink-400 focus:border-ink-100/20 focus:outline-none focus:ring-2 focus:ring-brand-teal/40"
+                />
+                <span className="mt-1.5 block text-[11px] text-ink-400">
+                  This shows on the café&apos;s reservation list.
+                </span>
+              </label>
+
               <label className="block">
                 <span className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-wider text-ink-400">
                   <Calendar className="h-3 w-3" /> When

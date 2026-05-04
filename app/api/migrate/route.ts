@@ -13,6 +13,7 @@ export async function GET() {
       created_at timestamptz not null default now()
     )
   `;
+  await sql`alter table reservations add column if not exists customer_name text not null default 'Guest'`;
   await sql`create index if not exists reservations_user_idx on reservations(user_id, start_at)`;
   await sql`create index if not exists reservations_cafe_idx on reservations(cafe_id, start_at)`;
   return NextResponse.json({ ok: true });

@@ -4,7 +4,7 @@ import { getCafeById } from "@/lib/data";
 
 export async function GET() {
   const { rows } = await sql<ReservationRow>`
-    select id, user_id, cafe_id, start_at, duration_minutes, status, created_at
+    select id, user_id, cafe_id, customer_name, start_at, duration_minutes, status, created_at
     from reservations
     where user_id = ${CURRENT_USER_ID}
     order by start_at asc
@@ -18,15 +18,24 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "invalid body" }, { status: 400 });
   }
 
-  const { cafeId, startAt, durationMinutes } = body as {
+  const { cafeId, startAt, durationMinutes, customerName } = body as {
     cafeId?: string;
     startAt?: string;
     durationMinutes?: number;
+    customerName?: string;
   };
 
   if (!cafeId || !startAt || !durationMinutes) {
     return NextResponse.json(
       { error: "cafeId, startAt, durationMinutes are required" },
+      { status: 400 }
+    );
+  }
+
+  const trimmedName = (customerName ?? "").trim();
+  if (!trimmedName) {
+    return NextResponse.json(
+      { error: "customerName is required" },
       { status: 400 }
     );
   }
@@ -45,9 +54,9 @@ export async function POST(req: Request) {
     .slice(2, 7)}`;
 
   const { rows } = await sql<ReservationRow>`
-    insert into reservations (id, user_id, cafe_id, start_at, duration_minutes, status)
-    values (${id}, ${CURRENT_USER_ID}, ${cafeId}, ${startDate.toISOString()}, ${durationMinutes}, 'confirmed')
-    returning id, user_id, cafe_id, start_at, duration_minutes, status, created_at
+    insert into reservations (id, user_id, cafe_id, customer_name, start_at, duration_minutes, status)
+    values (${id}, ${CURRENT_USER_ID}, ${cafeId}, ${trimmedName}, ${startDate.toISOString()}, ${durationMinutes}, 'confirmed')
+    returning id, user_id, cafe_id, customer_name, start_at, duration_minutes, status, created_at
   `;
 
   return NextResponse.json({ reservation: rows[0] }, { status: 201 });

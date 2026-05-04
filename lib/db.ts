@@ -6,6 +6,7 @@ export type ReservationRow = {
   id: string;
   user_id: string;
   cafe_id: string;
+  customer_name: string;
   start_at: string;
   duration_minutes: number;
   status: "confirmed" | "pending" | "cancelled";

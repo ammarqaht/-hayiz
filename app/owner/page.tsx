@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   ArrowUpRight,
   Coins,
@@ -12,9 +14,11 @@ import {
 import { Topbar } from "@/components/dashboard/Topbar";
 import { CountUp } from "@/components/ui/CountUp";
 import { Stagger, staggerItem, FadeInUp } from "@/components/ui/AnimatedText";
-import { ownerOverview, reservations } from "@/lib/data";
+import { ownerOverview, getCafeById, PINNED_CAFE_ID } from "@/lib/data";
 import { AreaChart, BarChart, Donut } from "@/components/owner/Charts";
 import { Badge } from "@/components/ui/Badge";
+import { formatDayLabel, formatDateRange } from "@/lib/utils";
+import type { ReservationRow } from "@/lib/db";
 
 const stats = [
   {
@@ -53,6 +57,21 @@ const toneByStatus: Record<string, "success" | "info" | "warning"> = {
 };
 
 export default function OwnerOverviewPage() {
+  const cafe = getCafeById(PINNED_CAFE_ID);
+  const [reservations, setReservations] = useState<ReservationRow[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/cafes/${PINNED_CAFE_ID}/reservations`, { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data: { reservations: ReservationRow[] }) => {
+        if (!cancelled) setReservations(data.reservations ?? []);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <>
       <Topbar
@@ -160,41 +179,52 @@ export default function OwnerOverviewPage() {
                 <h3 className="text-[15px] font-semibold">Live reservations</h3>
                 <p className="text-[12px] text-ink-400">Updated in real-time</p>
               </div>
-              <button className="text-[12px] text-ink-200 hover:text-ink-100">
+              <Link
+                href="/owner/reservations"
+                className="text-[12px] text-ink-200 hover:text-ink-100"
+              >
                 View all <ArrowUpRight className="ml-1 inline h-3 w-3" />
-              </button>
+              </Link>
             </div>
-            <ul className="divide-y divide-ink-100/[0.04]">
-              {reservations.slice(0, 5).map((r, i) => (
-                <motion.li
-                  key={r.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.05 * i, duration: 0.4 }}
-                  className="flex items-center gap-3 px-6 py-3.5"
-                >
-                  <div className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg bg-brand-gradient text-[11px] font-semibold text-white">
-                    {r.customer
-                      .split(" ")
-                      .map((n) => n[0])
-                      .slice(0, 2)
-                      .join("")}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-[13px] font-medium">
-                      {r.customer}
-                    </p>
-                    <p className="truncate text-[11px] text-ink-400">
-                      {r.time} · {r.seat} · {r.duration}
-                    </p>
-                  </div>
-                  <Badge tone={toneByStatus[r.status] ?? "neutral"}>
-                    {r.status}
-                  </Badge>
-                </motion.li>
-              ))}
-            </ul>
+            {reservations.length === 0 ? (
+              <div className="px-6 py-10 text-center text-[13px] text-ink-300">
+                No reservations yet at {cafe?.name ?? "your café"}.
+              </div>
+            ) : (
+              <ul className="divide-y divide-ink-100/[0.04]">
+                {reservations.slice(0, 5).map((r, i) => (
+                  <motion.li
+                    key={r.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.05 * i, duration: 0.4 }}
+                    className="flex items-center gap-3 px-6 py-3.5"
+                  >
+                    <div className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg bg-brand-gradient text-[11px] font-semibold text-white">
+                      {(r.customer_name
+                        .split(" ")
+                        .filter(Boolean)
+                        .map((n) => n[0]?.toUpperCase() ?? "")
+                        .slice(0, 2)
+                        .join("")) || "?"}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-[13px] font-medium">
+                        {r.customer_name}
+                      </p>
+                      <p className="truncate text-[11px] text-ink-400">
+                        {formatDayLabel(new Date(r.start_at))} ·{" "}
+                        {formatDateRange(r.start_at, r.duration_minutes)}
+                      </p>
+                    </div>
+                    <Badge tone={toneByStatus[r.status] ?? "neutral"}>
+                      {r.status}
+                    </Badge>
+                  </motion.li>
+                ))}
+              </ul>
+            )}
           </div>
         </FadeInUp>
       </div>
